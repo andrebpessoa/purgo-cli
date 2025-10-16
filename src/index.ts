@@ -1,5 +1,5 @@
 import { rm } from "node:fs/promises";
-import os from "node:os";
+import * as os from "node:os";
 import { join, resolve } from "node:path";
 import { execa } from "execa";
 import getFolderSize from "get-folder-size";

@@ -1,4 +1,4 @@
-import os from "node:os";
+import * as os from "node:os";
 import chalk from "chalk";
 import { execa } from "execa";
 import * as v from "valibot";
