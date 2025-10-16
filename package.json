@@ -47,7 +47,10 @@
 		"prepublishOnly": "bun run build",
 		"test": "bun test",
 		"lint": "bunx biome check --write --unsafe",
-		"check": "tsc --noEmit"
+		"check": "tsc --noEmit",
+		"release:patch": "npm version patch && git push --follow-tags",
+		"release:minor": "npm version minor && git push --follow-tags",
+		"release:major": "npm version major && git push --follow-tags"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "2.2.6",

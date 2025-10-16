@@ -1,6 +1,7 @@
 # 🧹 Purgo CLI
 
 [![npm version](https://img.shields.io/npm/v/purgo-cli.svg)](https://www.npmjs.com/package/purgo-cli)
+[![CI](https://github.com/andrebpessoa/purgo-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/andrebpessoa/purgo-cli/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Built with Bun](https://img.shields.io/badge/Built%20with-Bun-FFDF00)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)

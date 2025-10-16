@@ -1,0 +1,53 @@
+# Source files
+src/
+tests/
+
+# Config files
+tsconfig.json
+biome.json
+.editorconfig
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+.gitlab-ci.yml
+.travis.yml
+.circleci/
+
+# Development
+*.tgz
+*.log
+*.lock
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Testing
+coverage/
+.nyc_output/
+*.test.ts
+*.test.js
+*.spec.ts
+*.spec.js
+__tests__/
+__mocks__/
+
+# Examples (keep them in repo, but not in npm package)
+examples/
+
+# Docs that aren't needed in npm
+CHANGELOG.md
+CONTRIBUTING.md
+.markdownlint.json
+
+# Misc
+node_modules/
+.env
+.env.*
+!.env.example
+
