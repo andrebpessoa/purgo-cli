@@ -206,7 +206,7 @@ Hooks run in the project root directory and inherit the shell environment.
 |--------|-------|-------------|
 | `--dry-run` | `-d` | List what would be deleted without deleting |
 | `--path <path>` | `-p` | Root directory to search from |
-| `--reinstall` | `-r` | Run `bun install` after cleanup |
+| `--reinstall` | `-r` | Reinstall dependencies after cleanup (auto-detects npm/yarn/pnpm/bun) |
 | `--targets <list>` | `-t` | Comma-separated list of targets to clean |
 | `--config <file>` | `-c` | Path to global configuration file |
 
@@ -223,8 +223,12 @@ When no targets are specified, Purgo cleans:
 - `.turbo` - Turborepo cache
 - `.next` - Next.js build files
 - `.svelte-kit` - SvelteKit build files
-- `bun.lockb` - Bun lockfile
-- `pnpm-lock.yaml` - PNPM lockfile
+
+> **Note:** Lock files (`package-lock.json`, `yarn.lock`, `pnpm-lock.yaml`, `bun.lockb`, `bun.lock`) are **not** included in default targets to prevent accidental deletion. If you need to clean lock files, specify them explicitly:
+>
+> ```bash
+> purgo-cli clean --targets "node_modules,dist,package-lock.json"
+> ```
 
 ## 🔧 Programmatic Usage
 
