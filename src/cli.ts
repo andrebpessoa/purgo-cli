@@ -71,7 +71,7 @@ program
 				configPath: options.config,
 				force: options.force,
 				verbosity,
-				backup: options.backup,
+				// backup: options.backup,
 				targets: options.targets
 					? options.targets
 							.split(",")
