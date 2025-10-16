@@ -81,14 +81,14 @@ purgo-cli clean --targets "node_modules,dist,.next,coverage"
 
 ## ⚙️ Configuration
 
-purgo-cli supports multiple configuration formats via [cosmiconfig](https://github.com/davidtheclark/cosmiconfig):
+purgo supports multiple configuration formats via [cosmiconfig](https://github.com/davidtheclark/cosmiconfig):
 
-- `purgo-cli.config.js` / `purgo-cli.config.ts`
-- `purgo-cli.config.json`
+- `purgo.config.js` / `purgo.config.ts`
+- `purgo.config.json`
 - `.purgorc`
 - `.purgorc.json`
 - `.purgorc.js`
-- `purgo-cli` field in `package.json`
+- `purgo` field in `package.json`
 
 ### Basic Configuration Example
 
@@ -129,7 +129,7 @@ Create team-wide or shared configurations:
 
 ### Global Configuration
 
-Set system-wide defaults at `~/.config/purgo-cli/config.json` or use a custom path:
+Set system-wide defaults at `~/.config/purgo/config.json` or use a custom path:
 
 ```bash
 purgo-cli clean --config /path/to/global-config.json
@@ -210,8 +210,35 @@ Hooks run in the project root directory and inherit the shell environment.
 | `--reinstall` | `-r` | Reinstall dependencies after cleanup (auto-detects npm/yarn/pnpm/bun) |
 | `--targets <list>` | `-t` | Comma-separated list of targets to clean |
 | `--config <file>` | `-c` | Path to global configuration file |
+| `--force` | `-f` | Skip confirmation prompt (useful for CI/CD) |
+| `--verbose` | `-v` | Show detailed output including retry attempts |
+| `--quiet` | `-q` | Suppress all non-essential output |
 
----
+### 🧰 Initialization (purgo-cli init)
+
+Interactive helper to create a config file.
+
+Usage:
+
+```bash
+purgo-cli init
+```
+
+What it does:
+
+- Prompts to select targets e ignores
+- Optionally sets `preClean`/`postClean` hooks
+- Lets you choose where to save: `.purgorc.json` or `package.json` (field `purgo`)
+
+Examples:
+
+```bash
+# Save to .purgorc.json in the current directory
+purgo-cli init --path .
+
+# Add the "purgo" field inside package.json
+purgo-cli init --path ./my-app
+```
 
 ## 🎯 Default Targets
 

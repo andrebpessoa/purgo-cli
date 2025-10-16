@@ -72,8 +72,8 @@ const HOME_DIR =
 	(typeof os.homedir === "function" ? os.homedir() : "");
 
 const DEFAULT_GLOBAL_CONFIG = HOME_DIR
-	? join(HOME_DIR, ".config", "purgo-cli", "config.json")
-	: join(process.cwd(), ".purgo-cli", "config.json");
+	? join(HOME_DIR, ".config", "purgo", "config.json")
+	: join(process.cwd(), ".purgo", "config.json");
 
 /**
  * Finds and removes directories and files from a project.

@@ -66,7 +66,7 @@ describe("CleanUI", () => {
 		const ui = new CleanUI();
 
 		ui.startSearching();
-		ui.updateSearching("Nova mensagem");
+		ui.updateSearching("New message");
 
 		expect(spinnerInstance.text).toBeDefined();
 	});

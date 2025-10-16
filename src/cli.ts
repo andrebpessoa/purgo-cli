@@ -141,7 +141,7 @@ program
 					name: "format",
 					message: "Config file format:",
 					choices: [
-						{ title: ".purgo-clirc.json", value: "json" },
+						{ title: ".purgorc.json", value: "json" },
 						{ title: "package.json", value: "package" },
 					],
 					initial: 0,
@@ -169,7 +169,7 @@ program
 				const pkgPath = join(options.path, "package.json");
 				try {
 					const pkg = JSON.parse(readFileSync(pkgPath, "utf-8"));
-					pkg["purgo-cli"] = config;
+					pkg.purgo = config;
 					writeFileSync(pkgPath, `${JSON.stringify(pkg, null, 2)}\n`, "utf-8");
 					console.log(chalk.green("\n✓ Configuration added to package.json"));
 				} catch (error) {
@@ -180,7 +180,7 @@ program
 					process.exit(1);
 				}
 			} else {
-				const configPath = join(options.path, ".purgo-clirc.json");
+				const configPath = join(options.path, ".purgorc.json");
 				writeFileSync(
 					configPath,
 					`${JSON.stringify(config, null, 2)}\n`,

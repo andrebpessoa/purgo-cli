@@ -17,8 +17,8 @@ const configSchema = v.object({
 });
 
 /**
- * Configuration schema for purgo-cli.
- * Can be defined in .purgo-clirc, .purgo-clirc.json, .purgo-clirc.js, or package.json.
+ * Configuration schema for purgo.
+ * Can be defined in .purgorc, .purgorc.json, .purgorc.js, or package.json.
  */
 export type PurgoConfig = v.InferOutput<typeof configSchema>;
 
@@ -50,7 +50,7 @@ const mergeConfigs = (
 };
 
 const loadRawConfig = async (cwd: string): Promise<PurgoConfig | null> => {
-	const explorer = cosmiconfig("purgo-cli");
+	const explorer = cosmiconfig("purgo");
 	const result = await explorer.search(cwd);
 	if (!result || result.isEmpty) return null;
 
@@ -63,7 +63,7 @@ const loadRawConfig = async (cwd: string): Promise<PurgoConfig | null> => {
 			)
 			.join("\n");
 		throw new Error(
-			`Invalid 'purgo-cli' configuration in ${result.filepath}:\n${errorMessages}`,
+			`Invalid 'purgo' configuration in ${result.filepath}:\n${errorMessages}`,
 		);
 	}
 
@@ -96,7 +96,7 @@ const resolveExtends = async (
 			throw new Error(`Extends file not found: ${absolutePath}`);
 		}
 
-		const explorer = cosmiconfig("purgo-cli");
+		const explorer = cosmiconfig("purgo");
 		const result = await explorer.load(absolutePath);
 		if (!result) {
 			throw new Error(`Could not load extends: ${absolutePath}`);
@@ -163,7 +163,7 @@ export const loadConfig = async (
 	const configs: LoadedConfig[] = [];
 
 	if (globalConfigPath && existsSync(globalConfigPath)) {
-		const explorer = cosmiconfig("purgo-cli");
+		const explorer = cosmiconfig("purgo");
 		const globalResult = await explorer.load(globalConfigPath);
 		if (globalResult) {
 			const validation = validateConfig(globalResult.config);
@@ -192,7 +192,7 @@ export const loadConfig = async (
 		configs.push({ config: resolved });
 	}
 
-	const configFromPackageJson = await cosmiconfig("purgo-cli").load(
+	const configFromPackageJson = await cosmiconfig("purgo").load(
 		resolve(projectRoot, "package.json"),
 	);
 
