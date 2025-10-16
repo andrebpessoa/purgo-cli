@@ -1,12 +1,25 @@
-import { platform } from "node:os";
+import * as os from "node:os";
 import chalk from "chalk";
 import { execa } from "execa";
+import * as v from "valibot";
 
-export interface HookExecutor {
-	preClean?: string;
-	postClean?: string;
-}
+export const hookExecutorSchema = v.object({
+	preClean: v.optional(v.string()),
+	postClean: v.optional(v.string()),
+});
 
+/**
+ * Configuration for pre and post-clean hooks.
+ */
+export type HookExecutor = v.InferOutput<typeof hookExecutorSchema>;
+
+/**
+ * Executes a hook command in a shell.
+ * @param hookCommand The shell command to execute
+ * @param hookName The name of the hook (for logging)
+ * @param cwd The working directory where the command will run
+ * @throws Error if the hook command fails
+ */
 export async function executeHook(
 	hookCommand: string | undefined,
 	hookName: string,
@@ -17,7 +30,7 @@ export async function executeHook(
 	console.log(chalk.cyan(`Running ${hookName} hook: ${hookCommand}`));
 
 	try {
-		const isWindows = platform() === "win32";
+		const isWindows = os.platform() === "win32";
 		const shell = isWindows ? "cmd" : "sh";
 		const shellArgs = isWindows ? ["/c", hookCommand] : ["-c", hookCommand];
 
@@ -30,7 +43,8 @@ export async function executeHook(
 			console.log(chalk.green(`✓ ${hookName} hook completed`));
 		}
 	} catch (error) {
-		console.error(chalk.red(`✗ ${hookName} hook failed:`), error);
-		throw error;
+		const errorMessage = error instanceof Error ? error.message : String(error);
+		console.error(chalk.red(`✗ ${hookName} hook failed: ${errorMessage}`));
+		throw new Error(`Hook "${hookName}" failed to execute: ${errorMessage}`);
 	}
 }

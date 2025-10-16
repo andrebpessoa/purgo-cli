@@ -1,25 +1,29 @@
 import { existsSync } from "node:fs";
 import { resolve } from "node:path";
-import { type } from "arktype";
 import { cosmiconfig } from "cosmiconfig";
+import * as v from "valibot";
 import { configCache } from "./cache";
 
-const hooksSchema = type({
-	"preClean?": "string",
-	"postClean?": "string",
+const hooksSchema = v.object({
+	preClean: v.optional(v.string()),
+	postClean: v.optional(v.string()),
 });
 
-const configSchema = type({
-	"targets?": "string[]",
-	"ignore?": "string[]",
-	"extends?": "string | string[]",
-	"hooks?": hooksSchema,
+const configSchema = v.object({
+	targets: v.optional(v.array(v.string())),
+	ignore: v.optional(v.array(v.string())),
+	extends: v.optional(v.union([v.string(), v.array(v.string())])),
+	hooks: v.optional(hooksSchema),
 });
 
-export type PurgoConfig = typeof configSchema.infer;
+/**
+ * Configuration schema for purgo-cli.
+ * Can be defined in .purgo-clirc, .purgo-clirc.json, .purgo-clirc.js, or package.json.
+ */
+export type PurgoConfig = v.InferOutput<typeof configSchema>;
 
 const validateConfig = (value: unknown) => {
-	return configSchema(value);
+	return v.safeParse(configSchema, value);
 };
 
 const mergeConfigs = (
@@ -51,13 +55,19 @@ const loadRawConfig = async (cwd: string): Promise<PurgoConfig | null> => {
 	if (!result || result.isEmpty) return null;
 
 	const validation = validateConfig(result.config);
-	if (validation instanceof type.errors) {
+	if (!validation.success) {
+		const errorMessages = validation.issues
+			.map(
+				(issue) =>
+					`  - ${issue.path?.map((p) => p.key).join(".") || "root"}: ${issue.message}`,
+			)
+			.join("\n");
 		throw new Error(
-			`Invalid 'purgo-cli' configuration in ${result.filepath}:\n${validation.summary}`,
+			`Invalid 'purgo-cli' configuration in ${result.filepath}:\n${errorMessages}`,
 		);
 	}
 
-	return validation;
+	return validation.output;
 };
 
 const resolveExtends = async (
@@ -93,14 +103,18 @@ const resolveExtends = async (
 		}
 
 		const validation = validateConfig(result.config);
-		if (validation instanceof type.errors) {
-			throw new Error(
-				`Invalid extends '${absolutePath}':\n${validation.summary}`,
-			);
+		if (!validation.success) {
+			const errorMessages = validation.issues
+				.map(
+					(issue) =>
+						`  - ${issue.path?.map((p) => p.key).join(".") || "root"}: ${issue.message}`,
+				)
+				.join("\n");
+			throw new Error(`Invalid extends '${absolutePath}':\n${errorMessages}`);
 		}
 
 		const resolvedExtended = await resolveExtends(
-			validation,
+			validation.output,
 			resolve(absolutePath, ".."),
 			visited,
 		);
@@ -110,16 +124,32 @@ const resolveExtends = async (
 	return merged;
 };
 
+/**
+ * Represents a loaded configuration with its source file path.
+ */
 export interface LoadedConfig {
 	config: PurgoConfig;
 	filepath?: string;
 }
 
+/**
+ * Options for loading configuration files.
+ */
 export interface LoadConfigOptions {
+	/** The root directory of the project where config will be searched */
 	projectRoot: string;
+	/** Optional explicit path to a global configuration file */
 	globalConfigPath?: string;
 }
 
+/**
+ * Loads and merges purgo-cli configuration from multiple sources.
+ * Merges global config, workspace config, and package.json config.
+ * Results are cached for performance.
+ * @param options Configuration loading options
+ * @returns The merged configuration with its source file path
+ * @throws Error if configuration is invalid or extends cycle is detected
+ */
 export const loadConfig = async (
 	options: LoadConfigOptions,
 ): Promise<LoadedConfig> => {
@@ -137,13 +167,19 @@ export const loadConfig = async (
 		const globalResult = await explorer.load(globalConfigPath);
 		if (globalResult) {
 			const validation = validateConfig(globalResult.config);
-			if (validation instanceof type.errors) {
+			if (!validation.success) {
+				const errorMessages = validation.issues
+					.map(
+						(issue) =>
+							`  - ${issue.path?.map((p) => p.key).join(".") || "root"}: ${issue.message}`,
+					)
+					.join("\n");
 				throw new Error(
-					`Invalid global config (${globalConfigPath}):\n${validation.summary}`,
+					`Invalid global config (${globalConfigPath}):\n${errorMessages}`,
 				);
 			}
 			const resolved = await resolveExtends(
-				validation,
+				validation.output,
 				resolve(globalConfigPath, ".."),
 			);
 			configs.push({ config: resolved, filepath: globalConfigPath });
@@ -162,10 +198,16 @@ export const loadConfig = async (
 
 	if (configFromPackageJson?.config) {
 		const validation = validateConfig(configFromPackageJson.config);
-		if (validation instanceof type.errors) {
-			throw new Error(`Invalid config in package.json:\n${validation.summary}`);
+		if (!validation.success) {
+			const errorMessages = validation.issues
+				.map(
+					(issue) =>
+						`  - ${issue.path?.map((p) => p.key).join(".") || "root"}: ${issue.message}`,
+				)
+				.join("\n");
+			throw new Error(`Invalid config in package.json:\n${errorMessages}`);
 		}
-		const resolved = await resolveExtends(validation, projectRoot);
+		const resolved = await resolveExtends(validation.output, projectRoot);
 		configs.push({ config: resolved });
 	}
 

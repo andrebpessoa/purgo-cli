@@ -198,7 +198,7 @@ describe("CleanUI", () => {
 		const { CleanUI } = await importUI();
 		const ui = new CleanUI();
 
-		const spinner = ui.startReinstall();
+		const spinner = ui.startReinstall("npm");
 
 		expect(spinner).toBeDefined();
 		expect(oraMock).toHaveBeenCalled();
@@ -208,9 +208,9 @@ describe("CleanUI", () => {
 		const { CleanUI } = await importUI();
 		const ui = new CleanUI();
 
-		const spinner = ui.startReinstall();
+		const spinner = ui.startReinstall("npm");
 		spinnerInstance.succeed.mockClear();
-		ui.showReinstallSuccess(spinner);
+		ui.showReinstallSuccess(spinner, "npm");
 
 		expect(spinnerInstance.succeed).toHaveBeenCalled();
 	});
@@ -219,11 +219,11 @@ describe("CleanUI", () => {
 		const { CleanUI } = await importUI();
 		const ui = new CleanUI();
 
-		const spinner = ui.startReinstall();
+		const spinner = ui.startReinstall("npm");
 		spinnerInstance.fail.mockClear();
 		const error = new Error("Test error");
 
-		ui.showReinstallError(spinner, error);
+		ui.showReinstallError(spinner, error, "npm");
 
 		expect(spinnerInstance.fail).toHaveBeenCalled();
 		expect(consoleOutput.some((line) => line.includes("ERROR:"))).toBe(true);
