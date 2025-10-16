@@ -1,5 +1,5 @@
 import { rm } from "node:fs/promises";
-import { homedir } from "node:os";
+import os from "node:os";
 import { join, resolve } from "node:path";
 import { execa } from "execa";
 import getFolderSize from "get-folder-size";
@@ -67,7 +67,7 @@ const DEFAULT_TARGETS = [
 ];
 
 const DEFAULT_GLOBAL_CONFIG = join(
-	homedir(),
+	os.homedir(),
 	".config",
 	"purgo-cli",
 	"config.json",

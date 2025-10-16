@@ -1,4 +1,4 @@
-import { platform } from "node:os";
+import os from "node:os";
 import chalk from "chalk";
 import { execa } from "execa";
 import * as v from "valibot";
@@ -30,7 +30,7 @@ export async function executeHook(
 	console.log(chalk.cyan(`Running ${hookName} hook: ${hookCommand}`));
 
 	try {
-		const isWindows = platform() === "win32";
+		const isWindows = os.platform() === "win32";
 		const shell = isWindows ? "cmd" : "sh";
 		const shellArgs = isWindows ? ["/c", hookCommand] : ["-c", hookCommand];
 
