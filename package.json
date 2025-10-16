@@ -1,7 +1,7 @@
 {
   "name": "purgo",
   "version": "1.0.0",
-  "description": "A CLI tool to clean node_modules, caches and other artifacts of a project.",
+  "description": "A modern CLI tool for cleaning build artifacts, dependencies, and caches from JavaScript/TypeScript projects.",
   "author": "André Pessoa <andrebpessoa09@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -13,10 +13,20 @@
     "cleaner",
     "node_modules",
     "typescript",
-    "bun"
+    "bun",
+    "build-tool",
+    "cache",
+    "cleanup",
+    "artifacts",
+    "dependencies",
+    "nextjs",
+    "react",
+    "vite",
+    "monorepo"
   ],
   "files": [
-    "dist"
+    "dist",
+    "schema"
   ],
   "bin": {
     "purgo": "./dist/cli.js"

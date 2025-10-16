@@ -11,6 +11,12 @@ import { toBytes, deduplicatePaths } from './utils';
 import { CleanUI } from './ui';
 import { executeHook } from './hooks';
 
+export { CleanUI } from './ui';
+export { executeHook } from './hooks';
+export { toBytes, deduplicatePaths } from './utils';
+export { configCache } from './cache';
+export type { PurgoConfig, LoadedConfig } from './config';
+
 export interface CleanOptions {
   /** The root directory to start searching from. */
   rootDir: string;

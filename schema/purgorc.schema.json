@@ -1,37 +1,37 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://example.local/purgo/purgorc.schema.json",
+  "$id": "https://raw.githubusercontent.com/andrebpessoa/purgo/main/schema/purgorc.schema.json",
   "title": "Purgo Configuration",
   "type": "object",
   "additionalProperties": false,
   "properties": {
     "$schema": {
       "type": "string",
-      "description": "Metadado do editor para apontar para o JSON Schema"
+      "description": "Editor metadata to point to the JSON Schema"
     },
     "targets": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Paths/globs a serem removidos pelo purgo"
+      "description": "Paths/globs to be removed by purgo"
     },
     "ignore": {
       "type": "array",
       "items": { "type": "string" },
-      "description": "Paths/globs a serem ignorados durante a limpeza"
+      "description": "Paths/globs to be ignored during cleanup"
     },
     "extends": {
       "oneOf": [
         { "type": "string" },
         { "type": "array", "items": { "type": "string" } }
       ],
-      "description": "Lista ou caminho para configs a serem estendidas (merge)"
+      "description": "Path or list of paths to base configurations to extend (merge)"
     },
     "hooks": {
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "preClean": { "type": "string", "description": "Comando executado antes da limpeza" },
-        "postClean": { "type": "string", "description": "Comando executado após a limpeza" }
+        "preClean": { "type": "string", "description": "Command executed before cleanup" },
+        "postClean": { "type": "string", "description": "Command executed after cleanup" }
       }
     }
   }
