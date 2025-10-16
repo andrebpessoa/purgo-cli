@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://raw.githubusercontent.com/andrebpessoa/purgo/main/schema/purgorc.schema.json",
+  "$id": "https://raw.githubusercontent.com/andrebpessoa/purgo-cli/main/schema/purgorc.schema.json",
   "title": "Purgo Configuration",
   "type": "object",
   "additionalProperties": false,

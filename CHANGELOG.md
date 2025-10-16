@@ -14,14 +14,14 @@ First stable release of Purgo - a modern CLI tool for cleaning build artifacts, 
 ### ✨ Features
 
 - **CLI Interface** - Interactive command-line tool with modern UI
-- **Multiple Configuration Formats** - Support for `.purgorc`, `.purgorc.json`, `purgo.config.js/ts`, and `package.json` field
+- **Multiple Configuration Formats** - Support for `.purgorc`, `.purgorc.json`, `purgo-cli.config.js/ts`, and `package.json` field
 - **Smart Path Deduplication** - Automatically removes only top-level directories to avoid redundant operations
 - **Hooks System** - Pre/post-clean hooks for custom workflows
 - **Dry-run Mode** - Preview what would be deleted without actually deleting
 - **Configuration Inheritance** - Extend and merge configurations using the `extends` field
 - **Ignore Patterns** - Protect important directories with glob patterns
 - **Framework Support** - Built-in targets for Next.js, Svelte, Vite, and more
-- **Global Configuration** - Set system-wide defaults at `~/.config/purgo/config.json`
+- **Global Configuration** - Set system-wide defaults at `~/.config/purgo-cli/config.json`
 - **Programmatic API** - Use Purgo in your Node.js/TypeScript scripts
 
 ### 📦 Default Targets
@@ -72,4 +72,4 @@ Ready-to-use configuration examples included:
 
 ---
 
-[1.0.0]: https://github.com/andrebpessoa/purgo/releases/tag/v1.0.0
+[1.0.0]: https://github.com/andrebpessoa/purgo-cli/releases/tag/v1.0.0

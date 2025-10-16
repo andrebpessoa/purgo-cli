@@ -42,7 +42,7 @@ const DEFAULT_TARGETS = [
   'pnpm-lock.yaml',
 ];
 
-const DEFAULT_GLOBAL_CONFIG = join(homedir(), '.config', 'purgo', 'config.json');
+const DEFAULT_GLOBAL_CONFIG = join(homedir(), '.config', 'purgo-cli', 'config.json');
 
 /**
  * Finds and removes directories and files from a project.

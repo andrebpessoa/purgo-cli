@@ -40,7 +40,7 @@ describe("loadConfig", () => {
     const { loadConfig } = await importConfig("merge");
 
     const projectRoot = "/proj";
-    const globalPath = "/home/.config/purgo/config.json";
+    const globalPath = "/home/.config/purgo-cli/config.json";
 
     existsSyncMock.mockImplementation((p: string) => p === globalPath || p.endsWith("extends-a.json") || p.endsWith("extends-b.json"));
 
@@ -53,19 +53,19 @@ describe("loadConfig", () => {
       filepath: globalPath,
     });
 
-    loadMap.set("/home/.config/purgo/extends-a.json", {
+    loadMap.set("/home/.config/purgo-cli/extends-a.json", {
       config: {
         ignore: ["**/.cache"],
         extends: ["extends-b.json"],
       },
-      filepath: "/home/.config/purgo/extends-a.json",
+      filepath: "/home/.config/purgo-cli/extends-a.json",
     });
 
-    loadMap.set("/home/.config/purgo/extends-b.json", {
+    loadMap.set("/home/.config/purgo-cli/extends-b.json", {
       config: {
         targets: ["dist"],
       },
-      filepath: "/home/.config/purgo/extends-b.json",
+      filepath: "/home/.config/purgo-cli/extends-b.json",
     });
 
     searchMap.set(projectRoot, {
@@ -131,13 +131,13 @@ describe("loadConfig", () => {
   test("detects cycle in extends and throws error", async () => {
     const { loadConfig } = await importConfig("cycle");
     const projectRoot = "/proj";
-    const globalPath = "/home/.config/purgo/config.json";
+    const globalPath = "/home/.config/purgo-cli/config.json";
 
     existsSyncMock.mockImplementation((p: string) => true);
 
     loadMap.set(globalPath, { config: { extends: ["a.json"] }, filepath: globalPath });
-    loadMap.set("/home/.config/purgo/a.json", { config: { extends: ["b.json"] }, filepath: "/home/.config/purgo/a.json" });
-    loadMap.set("/home/.config/purgo/b.json", { config: { extends: ["a.json"] }, filepath: "/home/.config/purgo/b.json" });
+    loadMap.set("/home/.config/purgo-cli/a.json", { config: { extends: ["b.json"] }, filepath: "/home/.config/purgo-cli/a.json" });
+    loadMap.set("/home/.config/purgo-cli/b.json", { config: { extends: ["a.json"] }, filepath: "/home/.config/purgo-cli/b.json" });
 
     await expect(loadConfig({ projectRoot, globalConfigPath: globalPath })).rejects.toThrow(/cycle/i);
   });
@@ -145,7 +145,7 @@ describe("loadConfig", () => {
   test("extends points to nonexistent file and throws error", async () => {
     const { loadConfig } = await importConfig("missing");
     const projectRoot = "/proj";
-    const globalPath = "/home/.config/purgo/config.json";
+    const globalPath = "/home/.config/purgo-cli/config.json";
 
     existsSyncMock.mockImplementation((p: string) => p === globalPath);
     loadMap.set(globalPath, { config: { extends: ["missing.json"] }, filepath: globalPath });
@@ -156,11 +156,11 @@ describe("loadConfig", () => {
   test("extends invalid by schema throws error", async () => {
     const { loadConfig } = await importConfig("bad");
     const projectRoot = "/proj";
-    const globalPath = "/home/.config/purgo/config.json";
+    const globalPath = "/home/.config/purgo-cli/config.json";
 
     existsSyncMock.mockImplementation((p: string) => true);
     loadMap.set(globalPath, { config: { extends: ["bad.json"] }, filepath: globalPath });
-    loadMap.set("/home/.config/purgo/bad.json", { config: { targets: 123 }, filepath: "/home/.config/purgo/bad.json" } as any);
+    loadMap.set("/home/.config/purgo-cli/bad.json", { config: { targets: 123 }, filepath: "/home/.config/purgo-cli/bad.json" } as any);
 
     await expect(loadConfig({ projectRoot, globalConfigPath: globalPath })).rejects.toThrow(/Invalid extends/i);
   });
@@ -168,7 +168,7 @@ describe("loadConfig", () => {
   test("resolves relative extends path correctly", async () => {
     const { loadConfig } = await importConfig("rel");
     const projectRoot = "/proj";
-    const globalPath = "/home/.config/purgo/config.json";
+    const globalPath = "/home/.config/purgo-cli/config.json";
 
     existsSyncMock.mockImplementation((p: string) => true);
     loadMap.set(globalPath, { config: { extends: ["../shared/rel.json"] }, filepath: globalPath });
@@ -181,7 +181,7 @@ describe("loadConfig", () => {
   test("hooks makes deep merge preserving unoverridden values", async () => {
     const { loadConfig } = await importConfig("hooks");
     const projectRoot = "/proj";
-    const globalPath = "/home/.config/purgo/config.json";
+    const globalPath = "/home/.config/purgo-cli/config.json";
 
     existsSyncMock.mockImplementation((p: string) => true);
     loadMap.set(globalPath, { config: { hooks: { preClean: "global-pre", postClean: "global-post" } }, filepath: globalPath });

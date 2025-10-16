@@ -4,16 +4,6 @@ import { cosmiconfig } from 'cosmiconfig';
 import { z } from 'zod';
 import { configCache } from './cache';
 
-export interface PurgoConfig {
-  targets?: string[];
-  ignore?: string[];
-  extends?: string | string[];
-  hooks?: {
-    preClean?: string;
-    postClean?: string;
-  };
-}
-
 const configSchema = z.object({
   targets: z.array(z.string()).optional(),
   ignore: z.array(z.string()).optional(),
@@ -25,6 +15,8 @@ const configSchema = z.object({
     })
     .optional(),
 });
+
+export type PurgoConfig = z.infer<typeof configSchema>;
 
 const mergeConfigs = (base: PurgoConfig, override: PurgoConfig): PurgoConfig => {
   const mergedHooks = (() => {
@@ -47,14 +39,14 @@ const mergeConfigs = (base: PurgoConfig, override: PurgoConfig): PurgoConfig => 
 };
 
 const loadRawConfig = async (cwd: string): Promise<PurgoConfig | null> => {
-  const explorer = cosmiconfig('purgo');
+  const explorer = cosmiconfig('purgo-cli');
   const result = await explorer.search(cwd);
   if (!result || result.isEmpty) return null;
 
   const parsed = configSchema.safeParse(result.config);
   if (!parsed.success) {
     throw new Error(
-      `Invalid 'purgo' configuration in ${result.filepath}:\n${parsed.error}`,
+      `Invalid 'purgo-cli' configuration in ${result.filepath}:\n${parsed.error}`,
     );
   }
 
@@ -86,7 +78,7 @@ const resolveExtends = async (
       throw new Error(`Extends file not found: ${absolutePath}`);
     }
 
-    const explorer = cosmiconfig('purgo');
+    const explorer = cosmiconfig('purgo-cli');
     const result = await explorer.load(absolutePath);
     if (!result) {
       throw new Error(`Could not load extends: ${absolutePath}`);
@@ -129,7 +121,7 @@ export const loadConfig = async (
   const configs: LoadedConfig[] = [];
 
   if (globalConfigPath && existsSync(globalConfigPath)) {
-    const explorer = cosmiconfig('purgo');
+    const explorer = cosmiconfig('purgo-cli');
     const globalResult = await explorer.load(globalConfigPath);
     if (globalResult) {
       const parsed = configSchema.safeParse(globalResult.config);
@@ -149,7 +141,7 @@ export const loadConfig = async (
     configs.push({ config: resolved });
   }
 
-  const configFromPackageJson = await cosmiconfig('purgo').load(
+  const configFromPackageJson = await cosmiconfig('purgo-cli').load(
     resolve(projectRoot, 'package.json'),
   );
 

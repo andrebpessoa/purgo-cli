@@ -1,6 +1,6 @@
 # 🧹 Purgo
 
-[![npm version](https://img.shields.io/npm/v/purgo.svg)](https://www.npmjs.com/package/purgo)
+[![npm version](https://img.shields.io/npm/v/purgo-cli.svg)](https://www.npmjs.com/package/purgo-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Built with Bun](https://img.shields.io/badge/Built%20with-Bun-FFDF00)](https://bun.sh)
 [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -25,25 +25,25 @@
 ### Global Installation (Recommended)
 
 ```bash
-bun install -g purgo
+bun install -g purgo-cli
 # or
-npm install -g purgo
+npm install -g purgo-cli
 ```
 
 ### Local Installation
 
 ```bash
-bun install purgo --save-dev
+bun install purgo-cli --save-dev
 # or
-npm install purgo --save-dev
+npm install purgo-cli --save-dev
 ```
 
 ### One-time Usage
 
 ```bash
-bunx purgo clean
+bunx purgo-cli clean
 # or
-npx purgo clean
+npx purgo-cli clean
 ```
 
 ## 🚀 Quick Start
@@ -51,43 +51,43 @@ npx purgo clean
 ### Clean Current Project
 
 ```bash
-purgo clean
+purgo-cli clean
 ```
 
 ### Preview What Will Be Deleted
 
 ```bash
-purgo clean --dry-run
+purgo-cli clean --dry-run
 ```
 
 ### Clean and Reinstall Dependencies
 
 ```bash
-purgo clean --reinstall
+purgo-cli clean --reinstall
 ```
 
 ### Clean Specific Directory
 
 ```bash
-purgo clean --path ./packages/my-app
+purgo-cli clean --path ./packages/my-app
 ```
 
 ### Clean Custom Targets
 
 ```bash
-purgo clean --targets "node_modules,dist,.next,coverage"
+purgo-cli clean --targets "node_modules,dist,.next,coverage"
 ```
 
 ## ⚙️ Configuration
 
-Purgo supports multiple configuration formats via [cosmiconfig](https://github.com/davidtheclark/cosmiconfig):
+purgo-cli supports multiple configuration formats via [cosmiconfig](https://github.com/davidtheclark/cosmiconfig):
 
-- `purgo.config.js` / `purgo.config.ts`
-- `purgo.config.json`
+- `purgo-cli.config.js` / `purgo-cli.config.ts`
+- `purgo-cli.config.json`
 - `.purgorc`
 - `.purgorc.json`
 - `.purgorc.js`
-- `purgo` field in `package.json`
+- `purgo-cli` field in `package.json`
 
 ### Basic Configuration Example
 
@@ -128,34 +128,34 @@ Create team-wide or shared configurations:
 
 ### Global Configuration
 
-Set system-wide defaults at `~/.config/purgo/config.json` or use a custom path:
+Set system-wide defaults at `~/.config/purgo-cli/config.json` or use a custom path:
 
 ```bash
-purgo clean --config /path/to/global-config.json
+purgo-cli clean --config /path/to/global-config.json
 ```
 
 ## 📚 Examples
 
-Browse the [`examples/`](https://github.com/andrebpessoa/purgo/tree/main/examples) folder for pre-configured setups:
+Browse the [`examples/`](https://github.com/andrebpessoa/purgo-cli/tree/main/examples) folder for pre-configured setups:
 
 | Config | Best For | Key Features |
 |--------|----------|--------------|
-| **[basic-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/basic-config.json)** | General projects | All default targets, simple hooks |
-| **[nextjs-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/nextjs-config.json)** | Next.js apps | `.next`, `out`, env files, auto-rebuild |
-| **[react-vite-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/react-vite-config.json)** | React + Vite | Vite cache, optimized for React |
-| **[monorepo-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/monorepo-config.json)** | Monorepos | Recursive patterns, workspace protection |
-| **[ci-cd-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/ci-cd-config.json)** | CI/CD pipelines | Aggressive cleanup, removes OS files |
-| **[development-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/development-config.json)** | Development | Preserves `.env.local`, quick cleanup |
-| **[shared-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/shared-config.json)** | Team base | Minimal setup for extending |
+| **[basic-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/basic-config.json)** | General projects | All default targets, simple hooks |
+| **[nextjs-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/nextjs-config.json)** | Next.js apps | `.next`, `out`, env files, auto-rebuild |
+| **[react-vite-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/react-vite-config.json)** | React + Vite | Vite cache, optimized for React |
+| **[monorepo-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/monorepo-config.json)** | Monorepos | Recursive patterns, workspace protection |
+| **[ci-cd-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/ci-cd-config.json)** | CI/CD pipelines | Aggressive cleanup, removes OS files |
+| **[development-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/development-config.json)** | Development | Preserves `.env.local`, quick cleanup |
+| **[shared-config.json](https://github.com/andrebpessoa/purgo-cli/blob/main/examples/shared-config.json)** | Team base | Minimal setup for extending |
 
 ### Quick Download
 
 ```bash
 # Download an example directly
-curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/basic-config.json
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo-cli/main/examples/basic-config.json
 
 # Or for Next.js
-curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/nextjs-config.json
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo-cli/main/examples/nextjs-config.json
 ```
 
 ### Common Use Cases
@@ -163,15 +163,15 @@ curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/
 **Next.js Project:**
 
 ```bash
-curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/nextjs-config.json
-purgo clean --reinstall
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo-cli/main/examples/nextjs-config.json
+purgo-cli clean --reinstall
 ```
 
 **Monorepo Cleanup:**
 
 ```bash
-curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/monorepo-config.json
-purgo clean --reinstall
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo-cli/main/examples/monorepo-config.json
+purgo-cli clean --reinstall
 ```
 
 > **Note:** The `monorepo-config.json` uses recursive glob patterns (`**/node_modules`, `**/dist`) to automatically find and clean all packages in your workspace - no loops needed!
@@ -180,9 +180,9 @@ purgo clean --reinstall
 
 ```bash
 # In your CI pipeline
-curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/ci-cd-config.json
-bunx purgo clean --dry-run  # Preview
-bunx purgo clean            # Execute
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo-cli/main/examples/ci-cd-config.json
+bunx purgo-cli clean --dry-run  # Preview
+bunx purgo-cli clean            # Execute
 ```
 
 ## 🎣 Hooks
@@ -229,7 +229,7 @@ When no targets are specified, Purgo cleans:
 ## 🔧 Programmatic Usage
 
 ```typescript
-import { cleanProject } from 'purgo';
+import { cleanProject } from 'purgo-cli';
 
 await cleanProject({
   rootDir: process.cwd(),
@@ -256,16 +256,16 @@ await cleanProject({
 
 ```bash
 # Try with sudo (not recommended) or check file permissions
-sudo purgo clean
+sudo purgo-cli clean
 ```
 
 #### "Command not found"
 
 ```bash
 # Install globally
-bun install -g purgo
+bun install -g purgo-cli
 # or use npx/bunx
-bunx purgo clean
+bunx purgo-cli clean
 ```
 
 #### Large directories not showing size
@@ -288,7 +288,7 @@ bunx purgo clean
 Enable verbose logging:
 
 ```bash
-DEBUG=purgo:* purgo clean
+DEBUG=purgo-cli:* purgo-cli clean
 ```
 
 ## 🤝 Contributing
@@ -329,8 +329,8 @@ We welcome contributions! Please follow these steps:
 
 ```bash
 # Clone the repo
-git clone https://github.com/andrebpessoa/purgo.git
-cd purgo
+git clone https://github.com/andrebpessoa/purgo-cli.git
+cd purgo-cli
 
 # Install dependencies
 bun install
@@ -353,10 +353,10 @@ bun run cli --help
 
 ## 🔗 Links
 
-- [📖 Documentation](https://github.com/andrebpessoa/purgo#readme)
-- [🐛 Report Issues](https://github.com/andrebpessoa/purgo/issues)
-- [💬 Discussions](https://github.com/andrebpessoa/purgo/discussions)
-- [📦 NPM Package](https://www.npmjs.com/package/purgo)
+- [📖 Documentation](https://github.com/andrebpessoa/purgo-cli#readme)
+- [🐛 Report Issues](https://github.com/andrebpessoa/purgo-cli/issues)
+- [💬 Discussions](https://github.com/andrebpessoa/purgo-cli/discussions)
+- [📦 NPM Package](https://www.npmjs.com/package/purgo-cli)
 
 ## 📄 License
 

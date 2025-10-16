@@ -6,16 +6,13 @@ import { fileURLToPath } from 'node:url';
 import { Command } from 'commander';
 import { cleanProject } from './index';
 
-// Resolve version from package.json
 const getVersion = (): string => {
   try {
-    // Try ESM first
     const __dirname = dirname(fileURLToPath(import.meta.url));
     const packagePath = join(__dirname, '../package.json');
     const pkg = JSON.parse(readFileSync(packagePath, 'utf-8'));
     return pkg.version;
   } catch {
-    // Fallback for CommonJS
     const pkg = require('../package.json');
     return pkg.version;
   }
@@ -24,8 +21,8 @@ const getVersion = (): string => {
 const program = new Command();
 
 program
-  .name('purgo')
-  .description('A CLI tool to clean build artifacts and dependencies from projects.')
+  .name('purgo-cli')
+  .description('A modern CLI tool for cleaning build artifacts, dependencies, and caches from JavaScript/TypeScript projects.')
   .version(getVersion());
 
 program
