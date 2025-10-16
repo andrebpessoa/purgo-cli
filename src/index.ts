@@ -66,12 +66,14 @@ const DEFAULT_TARGETS = [
 	".svelte-kit",
 ];
 
-const DEFAULT_GLOBAL_CONFIG = join(
-	os.homedir(),
-	".config",
-	"purgo-cli",
-	"config.json",
-);
+const HOME_DIR =
+	process.env.HOME ??
+	process.env.USERPROFILE ??
+	(typeof os.homedir === "function" ? os.homedir() : "");
+
+const DEFAULT_GLOBAL_CONFIG = HOME_DIR
+	? join(HOME_DIR, ".config", "purgo-cli", "config.json")
+	: join(process.cwd(), ".purgo-cli", "config.json");
 
 /**
  * Finds and removes directories and files from a project.
