@@ -52,8 +52,8 @@ export interface CleanOptions {
 	force?: boolean;
 	/** Controls output verbosity: 'verbose' | 'normal' | 'quiet'. */
 	verbosity?: "verbose" | "normal" | "quiet";
-	/** If true, creates a backup before deleting files. */
-	backup?: boolean;
+	// /** If true, creates a backup before deleting files. */
+	// backup?: boolean;
 }
 
 const DEFAULT_TARGETS = [
