@@ -1,4 +1,4 @@
-# 🧹 Purgo
+# 🧹 Purgo CLI
 
 [![npm version](https://img.shields.io/npm/v/purgo-cli.svg)](https://www.npmjs.com/package/purgo-cli)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
