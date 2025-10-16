@@ -1,0 +1,79 @@
+{
+	"typescript.enablePromptUseWorkspaceTsdk": true,
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"editor.defaultFormatter": "biomejs.biome",
+	"editor.formatOnSave": true,
+	"editor.formatOnPaste": true,
+	"emmet.showExpandedAbbreviation": "never",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit",
+		"source.organizeImports.biome": "explicit"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[javascript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[markdown]": {
+		"editor.defaultFormatter": "DavidAnson.vscode-markdownlint"
+	},
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.hg": true,
+		"**/.DS_Store": true,
+		"**/Thumbs.db": true,
+		"/CVS": true,
+		"/.DS_Store": true,
+		"/.hg": true,
+		"/.svn": true,
+		"/.git": true,
+		"node_modules": true,
+		"**/CVS": true,
+		"**/node_modules": true,
+		"**/.turbo": true,
+		"**/.next": true,
+		"**/dist": true,
+		"**/build": true,
+		"**/out": true,
+		"**/.yarn": true,
+		"**/.vercel": true,
+		"**/.netlify": true,
+		"**/.wrangler": true,
+		"**/coverage": true,
+		"**/playwright-report": true,
+		"**/test-results": true,
+		"**/playwright/.cache": true,
+		"**/*.log": true,
+		"**/*.tsbuildinfo": true,
+		"**/.dev.vars": true,
+		"**/*.db": true,
+		"**/*.pem": true,
+		"**/logs": true,
+		"**/.vinxi": true,
+		"**/.output": true,
+		"**/.react-router": true,
+		"**/dev-dist": true,
+		"**/.idea": true
+	},
+	"search.useIgnoreFiles": true,
+	"files.watcherExclude": {
+		"**/node_modules/**": true,
+		"**/.turbo/**": true,
+		"**/dist/**": true,
+		"**/build/**": true,
+		"**/.next/**": true,
+		"**/coverage/**": true,
+		"**/.yarn/**": true
+	}
+}

@@ -1,25 +1,24 @@
 {
-  "$schema": "../schema/purgorc.schema.json",
-  "targets": [
-    "**/node_modules",
-    "**/dist",
-    "**/build",
-    "**/coverage",
-    "**/.turbo",
-    "**/.next",
-    "**/.svelte-kit",
-    "**/.nuxt",
-    "**/.output"
-  ],
-  "ignore": [
-    "**/packages/important/node_modules/**",
-    "**/apps/critical-app/node_modules/**",
-    "**/node_modules/**/node_modules",
-    "**/.pnpm-store/**"
-  ],
-  "hooks": {
-    "preClean": "echo '🧹 Cleaning monorepo workspace...'",
-    "postClean": "echo '📦 Reinstalling dependencies...' && bun install"
-  }
+	"$schema": "../schema/purgorc.schema.json",
+	"targets": [
+		"**/node_modules",
+		"**/dist",
+		"**/build",
+		"**/coverage",
+		"**/.turbo",
+		"**/.next",
+		"**/.svelte-kit",
+		"**/.nuxt",
+		"**/.output"
+	],
+	"ignore": [
+		"**/packages/important/node_modules/**",
+		"**/apps/critical-app/node_modules/**",
+		"**/node_modules/**/node_modules",
+		"**/.pnpm-store/**"
+	],
+	"hooks": {
+		"preClean": "echo '🧹 Cleaning monorepo workspace...'",
+		"postClean": "echo '📦 Reinstalling dependencies...' && bun install"
+	}
 }
-

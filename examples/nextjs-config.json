@@ -1,23 +1,19 @@
 {
-  "$schema": "../schema/purgorc.schema.json",
-  "targets": [
-    "node_modules",
-    ".next",
-    "out",
-    ".turbo",
-    "coverage",
-    ".env.local",
-    ".env.development.local",
-    ".env.test.local",
-    ".env.production.local"
-  ],
-  "ignore": [
-    "**/important-data/**",
-    "**/.next/cache/**"
-  ],
-  "hooks": {
-    "preClean": "echo '🧹 Cleaning Next.js project...'",
-    "postClean": "echo '📦 Reinstalling dependencies...' && bun install && echo '🏗️  Rebuilding Next.js app...' && bun run build"
-  }
+	"$schema": "../schema/purgorc.schema.json",
+	"targets": [
+		"node_modules",
+		".next",
+		"out",
+		".turbo",
+		"coverage",
+		".env.local",
+		".env.development.local",
+		".env.test.local",
+		".env.production.local"
+	],
+	"ignore": ["**/important-data/**", "**/.next/cache/**"],
+	"hooks": {
+		"preClean": "echo '🧹 Cleaning Next.js project...'",
+		"postClean": "echo '📦 Reinstalling dependencies...' && bun install && echo '🏗️  Rebuilding Next.js app...' && bun run build"
+	}
 }
-

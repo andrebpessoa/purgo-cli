@@ -1,20 +1,9 @@
 {
-  "$schema": "../schema/purgorc.schema.json",
-  "targets": [
-    "node_modules",
-    "dist",
-    "build",
-    "coverage",
-    ".turbo"
-  ],
-  "ignore": [
-    "**/vendor/**",
-    "**/important-data/**",
-    "**/production-assets/**"
-  ],
-  "hooks": {
-    "preClean": "echo '🧹 Cleaning project...'",
-    "postClean": "echo '📦 Dependencies cleaned successfully!'"
-  }
+	"$schema": "../schema/purgorc.schema.json",
+	"targets": ["node_modules", "dist", "build", "coverage", ".turbo"],
+	"ignore": ["**/vendor/**", "**/important-data/**", "**/production-assets/**"],
+	"hooks": {
+		"preClean": "echo '🧹 Cleaning project...'",
+		"postClean": "echo '📦 Dependencies cleaned successfully!'"
+	}
 }
-

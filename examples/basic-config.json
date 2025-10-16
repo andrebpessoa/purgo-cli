@@ -1,23 +1,23 @@
 {
-  "$schema": "../schema/purgorc.schema.json",
-  "targets": [
-    "node_modules",
-    "dist",
-    "build",
-    "coverage",
-    ".turbo",
-    ".next",
-    ".svelte-kit",
-    "bun.lockb",
-    "pnpm-lock.yaml"
-  ],
-  "ignore": [
-    "**/important-cache/**",
-    "**/keep-this/**",
-    "**/node_modules/**/node_modules"
-  ],
-  "hooks": {
-    "preClean": "echo '🧹 Starting cleanup...'",
-    "postClean": "echo '✨ Cleanup completed!'"
-  }
+	"$schema": "../schema/purgorc.schema.json",
+	"targets": [
+		"node_modules",
+		"dist",
+		"build",
+		"coverage",
+		".turbo",
+		".next",
+		".svelte-kit",
+		"bun.lockb",
+		"pnpm-lock.yaml"
+	],
+	"ignore": [
+		"**/important-cache/**",
+		"**/keep-this/**",
+		"**/node_modules/**/node_modules"
+	],
+	"hooks": {
+		"preClean": "echo '🧹 Starting cleanup...'",
+		"postClean": "echo '✨ Cleanup completed!'"
+	}
 }

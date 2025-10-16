@@ -1,26 +1,26 @@
 {
-  "$schema": "../schema/purgorc.schema.json",
-  "targets": [
-    "node_modules",
-    "dist",
-    "build",
-    "coverage",
-    ".turbo",
-    ".next",
-    ".nuxt",
-    ".svelte-kit",
-    ".vite",
-    "*.log",
-    ".DS_Store",
-    "Thumbs.db"
-  ],
-  "ignore": [
-    "**/important-data/**",
-    "**/.env.local",
-    "**/production-assets/**"
-  ],
-  "hooks": {
-    "preClean": "echo '🛠️  Development cleanup: Removing build artifacts...'",
-    "postClean": "echo '🔄 Development cleanup: Reinstalling dependencies...' && bun install && echo '✅ Development environment ready!'"
-  }
+	"$schema": "../schema/purgorc.schema.json",
+	"targets": [
+		"node_modules",
+		"dist",
+		"build",
+		"coverage",
+		".turbo",
+		".next",
+		".nuxt",
+		".svelte-kit",
+		".vite",
+		"*.log",
+		".DS_Store",
+		"Thumbs.db"
+	],
+	"ignore": [
+		"**/important-data/**",
+		"**/.env.local",
+		"**/production-assets/**"
+	],
+	"hooks": {
+		"preClean": "echo '🛠️  Development cleanup: Removing build artifacts...'",
+		"postClean": "echo '🔄 Development cleanup: Reinstalling dependencies...' && bun install && echo '✅ Development environment ready!'"
+	}
 }
