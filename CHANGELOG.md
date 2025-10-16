@@ -73,3 +73,26 @@ Ready-to-use configuration examples included:
 ---
 
 [1.0.0]: https://github.com/andrebpessoa/purgo-cli/releases/tag/v1.0.0
+
+## [1.0.1] - 2025-10-16
+
+### Changed
+
+- Standardized project naming to "purgo-cli" across CLI name, docs and links.
+- Default CLI command is now `purgo-cli` in all examples and usage.
+
+### Documentation
+
+- README polished: consistent headings, examples updated to `purgo-cli`, links moved to new repository paths.
+- Added npm badge and links pointing to `purgo-cli` package.
+
+### Schema
+
+- Updated `$id` of `purgorc.schema.json` to the new repository path.
+
+### Internal
+
+- Exposed additional public exports from `src/index.ts` for convenience.
+- Ensured package distribution includes `schema/` alongside `dist/`.
+
+[1.0.1]: https://github.com/andrebpessoa/purgo-cli/releases/tag/v1.0.1
