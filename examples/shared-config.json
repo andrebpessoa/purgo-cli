@@ -3,10 +3,18 @@
   "targets": [
     "node_modules",
     "dist",
-    "build"
+    "build",
+    "coverage",
+    ".turbo"
   ],
   "ignore": [
-    "**/vendor/**"
-  ]
+    "**/vendor/**",
+    "**/important-data/**",
+    "**/production-assets/**"
+  ],
+  "hooks": {
+    "preClean": "echo '🧹 Cleaning project...'",
+    "postClean": "echo '📦 Dependencies cleaned successfully!'"
+  }
 }
 

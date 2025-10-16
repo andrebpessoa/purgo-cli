@@ -1,5 +1,5 @@
 {
-  "$schema": "./schema/purgorc.schema.json",
+  "$schema": "../schema/purgorc.schema.json",
   "targets": [
     "node_modules",
     "dist",
@@ -13,11 +13,11 @@
   ],
   "ignore": [
     "**/important-cache/**",
-    "**/keep-this/**"
+    "**/keep-this/**",
+    "**/node_modules/**/node_modules"
   ],
   "hooks": {
-    "preClean": "echo 'Starting cleanup...'",
-    "postClean": "echo 'Cleanup completed!'"
+    "preClean": "echo '🧹 Starting cleanup...'",
+    "postClean": "echo '✨ Cleanup completed!'"
   }
 }
-

@@ -5,10 +5,19 @@
     ".next",
     "out",
     ".turbo",
-    "coverage"
+    "coverage",
+    ".env.local",
+    ".env.development.local",
+    ".env.test.local",
+    ".env.production.local"
+  ],
+  "ignore": [
+    "**/important-data/**",
+    "**/.next/cache/**"
   ],
   "hooks": {
-    "postClean": "bun install"
+    "preClean": "echo '🧹 Cleaning Next.js project...'",
+    "postClean": "echo '📦 Reinstalling dependencies...' && bun install && echo '🏗️  Rebuilding Next.js app...' && bun run build"
   }
 }
 

@@ -1,0 +1,22 @@
+{
+  "$schema": "../schema/purgorc.schema.json",
+  "targets": [
+    "node_modules",
+    "dist",
+    "build",
+    "coverage",
+    ".vite",
+    ".env.local",
+    ".env.development.local",
+    ".env.test.local",
+    ".env.production.local"
+  ],
+  "ignore": [
+    "**/public/assets/**",
+    "**/important-data/**"
+  ],
+  "hooks": {
+    "preClean": "echo '⚛️  Cleaning React/Vite project...'",
+    "postClean": "echo '📦 Reinstalling dependencies...' && bun install && echo '🏗️  Rebuilding for production...' && bun run build"
+  }
+}

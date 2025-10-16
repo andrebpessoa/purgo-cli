@@ -1,159 +1,232 @@
 # 🧹 Purgo
 
-Uma ferramenta CLI moderna e poderosa para limpar artefatos de build, dependências e caches de projetos JavaScript/TypeScript.
+[![npm version](https://img.shields.io/npm/v/purgo.svg)](https://www.npmjs.com/package/purgo)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Built with Bun](https://img.shields.io/badge/Built%20with-Bun-FFDF00)](https://bun.sh)
+[![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 
-## ✨ Características
+**A modern, powerful CLI tool for cleaning build artifacts, dependencies, and caches from JavaScript/TypeScript projects.**
 
-- 🚀 **Rápido e eficiente** - Construído com Bun e TypeScript
-- 🎯 **Configurável** - Suporte para múltiplos formatos de configuração
-- 🔌 **Extensível** - Sistema de hooks para pré e pós-limpeza
-- 📦 **Inteligente** - Detecta e remove apenas diretórios de topo
-- 🎨 **Interface moderna** - UI colorida e interativa
-- 🔒 **Seguro** - Confirmação antes de deletar com modo dry-run
+**[Features](#-features)** • **[Installation](#-installation)** • **[Quick Start](#-quick-start)** • **[Configuration](#%EF%B8%8F-configuration)** • **[Examples](#-examples)**
 
-## 📥 Instalação
+## ✨ Features
+
+- 🚀 **Blazing Fast** - Built with Bun and optimized TypeScript
+- 🎯 **Highly Configurable** - Multiple configuration formats supported
+- 🔌 **Extensible** - Pre/post-clean hooks system
+- 🧠 **Smart Detection** - Removes only top-level directories intelligently
+- 🎨 **Modern UI** - Colorful, interactive terminal interface
+- 🔒 **Safe Operations** - Confirmation required before deletion with dry-run mode
+- 📦 **Framework Aware** - Built-in targets for popular frameworks
+- ⚡ **Instant Setup** - No configuration needed to get started
+
+## 📥 Installation
+
+### Global Installation (Recommended)
 
 ```bash
-bun install purgo
+bun install -g purgo
+# or
+npm install -g purgo
 ```
 
-Ou use diretamente com npx/bunx:
+### Local Installation
+
+```bash
+bun install purgo --save-dev
+# or
+npm install purgo --save-dev
+```
+
+### One-time Usage
 
 ```bash
 bunx purgo clean
+# or
+npx purgo clean
 ```
 
-## 🚀 Uso Básico
+## 🚀 Quick Start
 
-### Limpar projeto atual
+### Clean Current Project
 
 ```bash
 purgo clean
 ```
 
-### Modo dry-run (simular sem deletar)
+### Preview What Will Be Deleted
 
 ```bash
 purgo clean --dry-run
 ```
 
-### Limpar e reinstalar dependências
+### Clean and Reinstall Dependencies
 
 ```bash
 purgo clean --reinstall
 ```
 
-### Especificar diretório
+### Clean Specific Directory
 
 ```bash
-purgo clean --path /caminho/do/projeto
+purgo clean --path ./packages/my-app
 ```
 
-### Targets customizados
+### Clean Custom Targets
 
 ```bash
-purgo clean --targets "node_modules,dist,.next"
+purgo clean --targets "node_modules,dist,.next,coverage"
 ```
 
-## ⚙️ Configuração
+## ⚙️ Configuration
 
-Purgo suporta múltiplos formatos de configuração através do [cosmiconfig](https://github.com/davidtheclark/cosmiconfig):
+Purgo supports multiple configuration formats via [cosmiconfig](https://github.com/davidtheclark/cosmiconfig):
 
-- `purgo.config.js`
+- `purgo.config.js` / `purgo.config.ts`
 - `purgo.config.json`
 - `.purgorc`
 - `.purgorc.json`
 - `.purgorc.js`
-- Campo `purgo` no `package.json`
+- `purgo` field in `package.json`
 
-### Exemplo de Configuração
+### Basic Configuration Example
+
+Create a `.purgorc.json` in your project root:
 
 ```json
 {
-  "targets": [
-    "node_modules",
-    "dist",
-    "build",
-    ".next",
-    ".turbo",
-    "coverage"
-  ],
-  "ignore": [
-    "**/important-cache/**"
-  ],
+  "targets": ["node_modules", "dist", "build", "coverage"],
+  "ignore": ["**/important-data/**"],
   "hooks": {
-    "preClean": "echo 'Iniciando limpeza...'",
-    "postClean": "echo 'Limpeza concluída!'"
+    "preClean": "echo 'Starting cleanup...'",
+    "postClean": "echo 'Cleanup completed!'"
   }
 }
 ```
 
-### Extends
+### Configuration Fields
 
-Você pode estender configurações de outros arquivos:
+| Field | Type | Description | Example |
+|-------|------|-------------|---------|
+| `targets` | `string[]` | Directories/files to remove | `["node_modules", "dist"]` |
+| `ignore` | `string[]` | Glob patterns to exclude | `["**/keep/**"]` |
+| `extends` | `string \| string[]` | Base config(s) to inherit | `"./base.json"` |
+| `hooks.preClean` | `string` | Run before cleanup | `"npm run backup"` |
+| `hooks.postClean` | `string` | Run after cleanup | `"bun install"` |
+
+### Extending Configurations
+
+Create team-wide or shared configurations:
 
 ```json
 {
-  "extends": "../shared-config.json",
-  "targets": ["node_modules", "dist"]
+  "extends": "./examples/shared-config.json",
+  "targets": ["custom-target"],
+  "ignore": ["**/data/**"]
 }
 ```
 
-### Configuração Global
+### Global Configuration
 
-Crie uma configuração global em `~/.config/purgo/config.json`:
-
-```json
-{
-  "targets": ["node_modules", "dist", ".turbo"],
-  "ignore": ["**/keep-this/**"]
-}
-```
-
-Ou especifique um caminho customizado:
+Set system-wide defaults at `~/.config/purgo/config.json` or use a custom path:
 
 ```bash
-purgo clean --config /caminho/para/config.json
+purgo clean --config /path/to/global-config.json
+```
+
+## 📚 Examples
+
+Browse the [`examples/`](https://github.com/andrebpessoa/purgo/tree/main/examples) folder for pre-configured setups:
+
+| Config | Best For | Key Features |
+|--------|----------|--------------|
+| **[basic-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/basic-config.json)** | General projects | All default targets, simple hooks |
+| **[nextjs-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/nextjs-config.json)** | Next.js apps | `.next`, `out`, env files, auto-rebuild |
+| **[react-vite-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/react-vite-config.json)** | React + Vite | Vite cache, optimized for React |
+| **[monorepo-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/monorepo-config.json)** | Monorepos | Recursive patterns, workspace protection |
+| **[ci-cd-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/ci-cd-config.json)** | CI/CD pipelines | Aggressive cleanup, removes OS files |
+| **[development-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/development-config.json)** | Development | Preserves `.env.local`, quick cleanup |
+| **[shared-config.json](https://github.com/andrebpessoa/purgo/blob/main/examples/shared-config.json)** | Team base | Minimal setup for extending |
+
+### Quick Download
+
+```bash
+# Download an example directly
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/basic-config.json
+
+# Or for Next.js
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/nextjs-config.json
+```
+
+### Common Use Cases
+
+**Next.js Project:**
+
+```bash
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/nextjs-config.json
+purgo clean --reinstall
+```
+
+**Monorepo Cleanup:**
+
+```bash
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/monorepo-config.json
+purgo clean --reinstall
+```
+
+> **Note:** The `monorepo-config.json` uses recursive glob patterns (`**/node_modules`, `**/dist`) to automatically find and clean all packages in your workspace - no loops needed!
+
+**CI/CD Integration:**
+
+```bash
+# In your CI pipeline
+curl -o .purgorc.json https://raw.githubusercontent.com/andrebpessoa/purgo/main/examples/ci-cd-config.json
+bunx purgo clean --dry-run  # Preview
+bunx purgo clean            # Execute
 ```
 
 ## 🎣 Hooks
 
-Execute comandos antes e depois da limpeza:
+Execute commands before and after cleanup:
 
 ```json
 {
   "hooks": {
-    "preClean": "npm run backup",
-    "postClean": "npm run restore-cache"
+    "preClean": "npm run backup-data",
+    "postClean": "npm run setup && npm run build"
   }
 }
 ```
 
-## 📋 Opções CLI
+Hooks run in the project root directory and inherit the shell environment.
 
-| Opção | Alias | Descrição |
-|-------|-------|-----------|
-| `--dry-run` | `-d` | Lista o que seria deletado sem deletar |
-| `--path <path>` | `-p` | Diretório raiz para buscar |
-| `--reinstall` | `-r` | Executa `bun install` após limpeza |
-| `--targets <list>` | `-t` | Lista de targets separados por vírgula |
-| `--config <file>` | `-c` | Caminho para arquivo de configuração global |
+## 📋 CLI Options
 
-## 🎯 Targets Padrão
+| Option | Alias | Description |
+|--------|-------|-------------|
+| `--dry-run` | `-d` | List what would be deleted without deleting |
+| `--path <path>` | `-p` | Root directory to search from |
+| `--reinstall` | `-r` | Run `bun install` after cleanup |
+| `--targets <list>` | `-t` | Comma-separated list of targets to clean |
+| `--config <file>` | `-c` | Path to global configuration file |
 
-Se não especificado, Purgo limpará:
+---
 
-- `node_modules`
-- `dist`
-- `build`
-- `coverage`
-- `.turbo`
-- `.next`
-- `.svelte-kit`
-- `bun.lockb`
-- `pnpm-lock.yaml`
+## 🎯 Default Targets
 
-## 🔧 Uso Programático
+When no targets are specified, Purgo cleans:
+
+- `node_modules` - Dependencies
+- `dist` - Build output
+- `build` - Build artifacts
+- `coverage` - Test coverage reports
+- `.turbo` - Turborepo cache
+- `.next` - Next.js build files
+- `.svelte-kit` - SvelteKit build files
+- `bun.lockb` - Bun lockfile
+- `pnpm-lock.yaml` - PNPM lockfile
+
+## 🔧 Programmatic Usage
 
 ```typescript
 import { cleanProject } from 'purgo';
@@ -163,70 +236,128 @@ await cleanProject({
   dryRun: false,
   reinstall: true,
   targets: ['node_modules', 'dist'],
+  configPath: './purgo.config.json'
 });
 ```
 
-## 🛡️ Segurança
+## 🛡️ Safety Features
 
-- **Confirmação obrigatória** - Sempre pede confirmação antes de deletar (exceto dry-run)
-- **Deduplicação inteligente** - Remove apenas diretórios de topo para evitar operações redundantes
-- **Ignore patterns** - Protege diretórios importantes com padrões de exclusão
-- **Detecção de ciclos** - Previne loops infinitos em configurações extends
+- **Mandatory Confirmation** - Always prompts before deletion (except dry-run)
+- **Smart Deduplication** - Removes only top-level directories to avoid redundant operations
+- **Ignore Patterns** - Protects important directories with glob patterns
+- **Cycle Detection** - Prevents infinite loops in extends configurations
+- **Dry-run Mode** - Preview operations safely
 
-## 🔍 Exemplos
+## 🚨 Troubleshooting
 
-### Limpeza de monorepo
+### Common Issues
+
+#### "Permission denied" errors
 
 ```bash
-purgo clean --path ./packages/app --reinstall
+# Try with sudo (not recommended) or check file permissions
+sudo purgo clean
 ```
 
-### Configuração para Next.js
+#### "Command not found"
 
-```json
-{
-  "targets": [
-    "node_modules",
-    ".next",
-    "out",
-    ".turbo",
-    "coverage"
-  ],
-  "hooks": {
-    "postClean": "bun install"
-  }
-}
+```bash
+# Install globally
+bun install -g purgo
+# or use npx/bunx
+bunx purgo clean
 ```
 
-### Configuração para workspace
+#### Large directories not showing size
 
-```json
-{
-  "targets": ["**/node_modules", "**/dist"],
-  "ignore": ["**/packages/keep/node_modules"]
-}
+```bash
+# This is normal - Purgo calculates sizes asynchronously
+# Large dirs might show "calculating..." briefly
 ```
 
-## 🤝 Contribuindo
+#### Hooks not executing
 
-Contribuições são bem-vindas! Por favor:
+```bash
+# Ensure commands are available in PATH
+# Use absolute paths if needed
+"preClean": "/usr/local/bin/backup-script.sh"
+```
 
-1. Fork o projeto
-2. Crie uma branch para sua feature (`git checkout -b feature/MinhaFeature`)
-3. Commit suas mudanças (`git commit -m 'Adiciona MinhaFeature'`)
-4. Push para a branch (`git push origin feature/MinhaFeature`)
-5. Abra um Pull Request
+### Debug Mode
 
-## 📄 Licença
+Enable verbose logging:
 
-MIT © [André Pessoa](https://github.com/andrebpessoa)
+```bash
+DEBUG=purgo:* purgo clean
+```
+
+## 🤝 Contributing
+
+We welcome contributions! Please follow these steps:
+
+1. **Fork the repository**
+2. **Create a feature branch**
+
+   ```bash
+   git checkout -b feature/amazing-feature
+   ```
+
+3. **Make your changes**
+4. **Add tests** for new functionality
+5. **Ensure tests pass**
+
+   ```bash
+   bun test
+   ```
+
+6. **Update documentation** if needed
+7. **Commit your changes**
+
+   ```bash
+   git commit -m 'Add amazing feature'
+   ```
+
+8. **Push to your branch**
+
+   ```bash
+   git push origin feature/amazing-feature
+   ```
+
+9. **Open a Pull Request**
+
+### Development Setup
+
+```bash
+# Clone the repo
+git clone https://github.com/andrebpessoa/purgo.git
+cd purgo
+
+# Install dependencies
+bun install
+
+# Run tests
+bun test
+
+# Build the project
+bun run build
+
+# Test locally
+bun run cli --help
+```
+
+## 🙏 Acknowledgments
+
+- Built with [Bun](https://bun.sh) - The fast JavaScript runtime
+- Configuration powered by [cosmiconfig](https://github.com/davidtheclark/cosmiconfig)
+- UI components from [ora](https://github.com/sindresorhus/ora) and [chalk](https://github.com/chalk/chalk)
 
 ## 🔗 Links
 
-- [GitHub](https://github.com/andrebpessoa/purgo)
-- [NPM](https://www.npmjs.com/package/purgo)
-- [Reportar Bug](https://github.com/andrebpessoa/purgo/issues)
+- [📖 Documentation](https://github.com/andrebpessoa/purgo#readme)
+- [🐛 Report Issues](https://github.com/andrebpessoa/purgo/issues)
+- [💬 Discussions](https://github.com/andrebpessoa/purgo/discussions)
+- [📦 NPM Package](https://www.npmjs.com/package/purgo)
 
----
+## 📄 License
 
-Feito com ❤️ e [Bun](https://bun.sh)
+MIT © [André Pessoa](https://github.com/andrebpessoa)

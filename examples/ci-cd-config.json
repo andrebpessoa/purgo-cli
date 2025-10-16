@@ -1,0 +1,27 @@
+{
+  "$schema": "../schema/purgorc.schema.json",
+  "targets": [
+    "node_modules",
+    ".next",
+    ".nuxt",
+    ".svelte-kit",
+    ".turbo",
+    ".vite",
+    "dist",
+    "build",
+    "coverage",
+    ".env.*",
+    "*.log",
+    ".DS_Store",
+    "Thumbs.db"
+  ],
+  "ignore": [
+    "**/artifacts/**",
+    "**/cache/**",
+    "**/.pnpm-store/**"
+  ],
+  "hooks": {
+    "preClean": "echo '🔄 CI/CD Pipeline: Cleaning workspace...'",
+    "postClean": "echo '✅ CI/CD Pipeline: Workspace cleaned successfully'"
+  }
+}
