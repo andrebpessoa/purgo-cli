@@ -1,0 +1,19 @@
+{
+  "$schema": "../schema/purgorc.schema.json",
+  "targets": [
+    "**/node_modules",
+    "**/dist",
+    "**/build",
+    "**/.turbo",
+    "**/.next"
+  ],
+  "ignore": [
+    "**/packages/important/node_modules/**",
+    "**/node_modules/**/node_modules"
+  ],
+  "hooks": {
+    "preClean": "echo 'Cleaning monorepo...'",
+    "postClean": "bun install"
+  }
+}
+

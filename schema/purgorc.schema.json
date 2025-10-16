@@ -1,0 +1,40 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.local/purgo/purgorc.schema.json",
+  "title": "Purgo Configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Metadado do editor para apontar para o JSON Schema"
+    },
+    "targets": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths/globs a serem removidos pelo purgo"
+    },
+    "ignore": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Paths/globs a serem ignorados durante a limpeza"
+    },
+    "extends": {
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array", "items": { "type": "string" } }
+      ],
+      "description": "Lista ou caminho para configs a serem estendidas (merge)"
+    },
+    "hooks": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "preClean": { "type": "string", "description": "Comando executado antes da limpeza" },
+        "postClean": { "type": "string", "description": "Comando executado após a limpeza" }
+      }
+    }
+  }
+}
+
+

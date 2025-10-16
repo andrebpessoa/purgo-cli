@@ -1,0 +1,14 @@
+{
+  "$schema": "../schema/purgorc.schema.json",
+  "targets": [
+    "node_modules",
+    ".next",
+    "out",
+    ".turbo",
+    "coverage"
+  ],
+  "hooks": {
+    "postClean": "bun install"
+  }
+}
+

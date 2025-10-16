@@ -1,0 +1,12 @@
+{
+  "$schema": "../schema/purgorc.schema.json",
+  "targets": [
+    "node_modules",
+    "dist",
+    "build"
+  ],
+  "ignore": [
+    "**/vendor/**"
+  ]
+}
+
