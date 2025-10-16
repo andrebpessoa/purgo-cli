@@ -1,6 +1,6 @@
 {
 	"name": "purgo-cli",
-	"version": "1.0.3",
+	"version": "1.1.0",
 	"description": "A modern CLI tool for cleaning build artifacts, dependencies, and caches from JavaScript/TypeScript projects.",
 	"author": "André Pessoa <andrebpessoa09@gmail.com>",
 	"license": "MIT",
