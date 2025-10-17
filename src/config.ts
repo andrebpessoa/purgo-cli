@@ -14,6 +14,8 @@ const configSchema = v.object({
 	ignore: v.optional(v.array(v.string())),
 	extends: v.optional(v.union([v.string(), v.array(v.string())])),
 	hooks: v.optional(hooksSchema),
+	protectSelf: v.optional(v.boolean()),
+	excludePackages: v.optional(v.array(v.string())),
 });
 
 /**
@@ -46,6 +48,8 @@ const mergeConfigs = (
 		ignore: override.ignore ?? base.ignore,
 		extends: override.extends ?? base.extends,
 		hooks: mergedHooks,
+		protectSelf: override.protectSelf ?? base.protectSelf ?? true,
+		excludePackages: override.excludePackages ?? base.excludePackages,
 	};
 };
 

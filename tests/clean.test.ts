@@ -49,6 +49,57 @@ beforeEach(() => {
 });
 
 describe("cleanProject", () => {
+	test("does not delete purgo-cli when protectSelf default is true", async () => {
+		mock.module("../src/config", () => ({
+			loadConfig: mock(async () => ({
+				config: { targets: ["node_modules"], ignore: [], protectSelf: true },
+			})),
+		}));
+
+		const { cleanProject } = await importIndex("protectSelf");
+
+		// Simula que o glob encontrou node_modules e dist
+		globMock.mockImplementationOnce(async () => ["node_modules", "dist"]);
+		getFolderSizeMock.mockImplementation(async () => 1);
+		// Confirmar para deletar
+		promptsMock.mockImplementationOnce(async () => ({ confirm: true }));
+
+		// Injeta diretório protegido via variável de ambiente
+		process.env.PURGO_PROTECT_DIR = `${process.cwd()}/node_modules/purgo-cli`;
+
+		await cleanProject({
+			rootDir: process.cwd(),
+			dryRun: false,
+			reinstall: false,
+		});
+
+		delete process.env.PURGO_PROTECT_DIR;
+
+		// Espera deletar apenas "dist" e não o node_modules que contém purgo-cli
+		expect(rmMock.mock.calls.length).toBe(1);
+	});
+
+	test("allows deletion when protectSelf=false", async () => {
+		mock.module("../src/config", () => ({
+			loadConfig: mock(async () => ({
+				config: { targets: ["node_modules"], ignore: [], protectSelf: false },
+			})),
+		}));
+
+		const { cleanProject } = await importIndex("noProtect");
+
+		globMock.mockImplementationOnce(async () => ["node_modules"]);
+		getFolderSizeMock.mockImplementation(async () => 1);
+		promptsMock.mockImplementationOnce(async () => ({ confirm: true }));
+
+		await cleanProject({
+			rootDir: process.cwd(),
+			dryRun: false,
+			reinstall: false,
+		});
+
+		expect(rmMock.mock.calls.length).toBe(1);
+	});
 	test("dry-run does not delete files and does not ask for confirmation", async () => {
 		const { cleanProject } = await importIndex("dry");
 

@@ -9,7 +9,13 @@ import prompts from "prompts";
 import { loadConfig } from "./config";
 import { executeHook } from "./hooks";
 import { CleanUI } from "./ui";
-import { deduplicatePaths, detectPackageManager, toBytes } from "./utils";
+import {
+	deduplicatePaths,
+	getPreferredPackageManager,
+	resolvePackageDir,
+	shouldProtectPath,
+	toBytes,
+} from "./utils";
 
 export { configCache } from "./cache";
 export type { LoadedConfig, PurgoConfig } from "./config";
@@ -31,6 +37,8 @@ export {
 	deduplicatePaths,
 	detectPackageManager,
 	type PackageManager,
+	resolvePackageDir,
+	shouldProtectPath,
 	toBytes,
 } from "./utils";
 
@@ -124,7 +132,31 @@ export async function cleanProject(options: CleanOptions): Promise<void> {
 		ignore: finalIgnore,
 	});
 
-	const topLevelPaths = deduplicatePaths(pathsToDelete);
+	let topLevelPaths = deduplicatePaths(pathsToDelete);
+
+	// Self-protection filter: protect purgo-cli and any user-defined excluded packages
+	const protectSelf = config.protectSelf ?? true;
+	if (protectSelf) {
+		const envProtected = process.env.PURGO_PROTECT_DIR;
+		const ownPkgDir =
+			envProtected && envProtected.length > 0
+				? envProtected
+				: resolvePackageDir("purgo-cli");
+		const extraExcluded = (config.excludePackages ?? [])
+			.map((name) => resolvePackageDir(name))
+			.filter((v): v is string => Boolean(v));
+		const protectedDirs = [ownPkgDir, ...extraExcluded].filter(
+			(v): v is string => Boolean(v),
+		);
+
+		if (protectedDirs.length > 0) {
+			topLevelPaths = topLevelPaths.filter((rel) => {
+				// Compare against absolute path
+				const abs = resolve(rootDir, rel);
+				return !shouldProtectPath(abs, protectedDirs);
+			});
+		}
+	}
 
 	if (topLevelPaths.length === 0) {
 		ui.showNothingToClean();
@@ -275,7 +307,7 @@ export async function cleanProject(options: CleanOptions): Promise<void> {
 	await executeHook(config.hooks?.postClean, "postClean", rootDir);
 
 	if (reinstall && !dryRun && errorCount === 0) {
-		const packageManager = detectPackageManager(rootDir);
+		const packageManager = getPreferredPackageManager(rootDir);
 		const reinstallSpinner = ui.startReinstall(packageManager);
 		try {
 			await execa(packageManager, ["install"], { cwd: rootDir });

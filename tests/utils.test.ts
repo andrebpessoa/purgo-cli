@@ -1,5 +1,10 @@
 import { describe, expect, test } from "bun:test";
-import { deduplicatePaths, toBytes } from "../src/utils";
+import {
+	deduplicatePaths,
+	detectInvokerPackageManager,
+	getPreferredPackageManager,
+	toBytes,
+} from "../src/utils";
 
 describe("toBytes", () => {
 	test("correctly converts finite number", () => {
@@ -121,5 +126,64 @@ describe("deduplicatePaths", () => {
 			"packages/app/node_modules",
 			"packages/lib/node_modules",
 		]);
+	});
+});
+
+describe("detectInvokerPackageManager", () => {
+	const originalEnv = { ...process.env };
+
+	function resetEnv() {
+		process.env = { ...originalEnv };
+		delete process.env.BUN;
+		delete process.env.npm_config_user_agent;
+	}
+
+	test("detects bun via BUN env", () => {
+		resetEnv();
+		process.env.BUN = "1";
+		expect(detectInvokerPackageManager()).toBe("bun");
+	});
+
+	test("detects bun via user agent", () => {
+		resetEnv();
+		process.env.npm_config_user_agent = "bun/1.1.0 osx-x64";
+		expect(detectInvokerPackageManager()).toBe("bun");
+	});
+
+	test("detects pnpm via user agent", () => {
+		resetEnv();
+		process.env.npm_config_user_agent = "pnpm/9.0.0 node/v20";
+		expect(detectInvokerPackageManager()).toBe("pnpm");
+	});
+
+	test("detects yarn via user agent", () => {
+		resetEnv();
+		process.env.npm_config_user_agent = "yarn/4.0.0";
+		expect(detectInvokerPackageManager()).toBe("yarn");
+	});
+
+	test("detects npm via user agent", () => {
+		resetEnv();
+		process.env.npm_config_user_agent = "npm/10.2.0";
+		expect(detectInvokerPackageManager()).toBe("npm");
+	});
+
+	test("returns null when not detectable", () => {
+		resetEnv();
+		expect(detectInvokerPackageManager()).toBeNull();
+	});
+});
+
+describe("getPreferredPackageManager", () => {
+	test("prefers invoker over lockfile", () => {
+		const orig = process.env.npm_config_user_agent;
+		process.env.npm_config_user_agent = "pnpm/9.0.0";
+		// projectRoot here is irrelevant because invoker wins
+		expect(getPreferredPackageManager(process.cwd())).toBe("pnpm");
+		if (orig === undefined) {
+			delete process.env.npm_config_user_agent;
+		} else {
+			process.env.npm_config_user_agent = orig;
+		}
 	});
 });

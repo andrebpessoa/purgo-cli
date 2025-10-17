@@ -8,6 +8,8 @@
 
 **A modern, powerful CLI tool for cleaning build artifacts, dependencies, and caches from JavaScript/TypeScript projects.**
 
+Tired of manually deleting `node_modules`, `dist`, and cache folders? Purgo automates the cleanup process with a single command, helping you reclaim disk space and ensure a clean slate for your builds.
+
 **[Features](#-features)** • **[Installation](#-installation)** • **[Quick Start](#-quick-start)** • **[Configuration](#%EF%B8%8F-configuration)** • **[Examples](#-examples)**
 
 ## ✨ Features
@@ -23,7 +25,7 @@
 
 ## 📥 Installation
 
-### Global Installation (Recommended)
+### Global Installation
 
 ```bash
 bun install -g purgo-cli
@@ -39,13 +41,20 @@ bun install purgo-cli --save-dev
 npm install purgo-cli --save-dev
 ```
 
-### One-time Usage
+### Recommended Usage (via npx/bunx)
+
+For one-off or scripted use, it's best to run Purgo with `bunx` or `npx`. This ensures you are always using the latest version without adding it to your project's dependencies.
 
 ```bash
+# Preview what will be deleted
+bunx purgo-cli clean --dry-run
+# Execute the cleanup
 bunx purgo-cli clean
 # or
 npx purgo-cli clean
 ```
+
+> **Tip:** Using `bunx` or `npx` avoids potential conflicts with locally installed package versions.
 
 ## 🚀 Quick Start
 
@@ -66,6 +75,12 @@ purgo-cli clean --dry-run
 ```bash
 purgo-cli clean --reinstall
 ```
+
+> **Note on Package Manager Precedence:**
+> When using `--reinstall`, Purgo determines which package manager to use with the following priority:
+>
+> 1. **Invoked Runner:** If you run `purgo-cli` with `bunx`, `npx`, `yarn dlx`, or `pnpm dlx`, it will use `bun`, `npm`, `yarn`, or `pnpm`, respectively.
+> 2. **Lockfile:** If the runner can't be determined, it will check for a lockfile in your project, prioritizing `bun.lockb` > `pnpm-lock.yaml` > `yarn.lock` > `package-lock.json`.
 
 ### Clean Specific Directory
 
@@ -216,7 +231,7 @@ Hooks run in the project root directory and inherit the shell environment.
 
 ### 🧰 Initialization (purgo-cli init)
 
-Interactive helper to create a config file.
+Effortlessly create your configuration file with our interactive setup wizard.
 
 Usage:
 
@@ -226,9 +241,9 @@ purgo-cli init
 
 What it does:
 
-- Prompts to select targets e ignores
+- Prompts you to select targets and ignore patterns
 - Optionally sets `preClean`/`postClean` hooks
-- Lets you choose where to save: `.purgorc.json` or `package.json` (field `purgo`)
+- Lets you choose where to save: `.purgorc.json` or `package.json` (in the `purgo` field)
 
 Examples:
 
@@ -271,14 +286,6 @@ await cleanProject({
   configPath: './purgo.config.json'
 });
 ```
-
-## 🛡️ Safety Features
-
-- **Mandatory Confirmation** - Always prompts before deletion (except dry-run)
-- **Smart Deduplication** - Removes only top-level directories to avoid redundant operations
-- **Ignore Patterns** - Protects important directories with glob patterns
-- **Cycle Detection** - Prevents infinite loops in extends configurations
-- **Dry-run Mode** - Preview operations safely
 
 ## 🚨 Troubleshooting
 
@@ -330,30 +337,30 @@ We welcome contributions! Please follow these steps:
 1. **Fork the repository**
 2. **Create a feature branch**
 
-   ```bash
-   git checkout -b feature/amazing-feature
-   ```
+    ```bash
+    git checkout -b feature/amazing-feature
+    ```
 
 3. **Make your changes**
 4. **Add tests** for new functionality
 5. **Ensure tests pass**
 
-   ```bash
-   bun test
-   ```
+    ```bash
+    bun test
+    ```
 
 6. **Update documentation** if needed
 7. **Commit your changes**
 
-   ```bash
-   git commit -m 'Add amazing feature'
-   ```
+    ```bash
+    git commit -m 'Add amazing feature'
+    ```
 
 8. **Push to your branch**
 
-   ```bash
-   git push origin feature/amazing-feature
-   ```
+    ```bash
+    git push origin feature/amazing-feature
+    ```
 
 9. **Open a Pull Request**
 

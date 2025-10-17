@@ -39,6 +39,15 @@
 					"description": "Command executed after cleanup"
 				}
 			}
+		},
+		"protectSelf": {
+			"type": "boolean",
+			"description": "Protect purgo-cli package directory from being deleted (default: true)"
+		},
+		"excludePackages": {
+			"type": "array",
+			"items": { "type": "string" },
+			"description": "Additional package names to exclude from deletion under node_modules"
 		}
 	}
 }
